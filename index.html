@@ -1,317 +1,529 @@
 <!DOCTYPE html>
 <html>
    <head>
-      <title>iExec</title>
+      <title>iExec Dapp workflow demo</title>
       <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="viewport" />
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mulish:wght@200;600&display=swap" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono&display=swap" rel="stylesheet"> 
+<link rel="stylesheet" href="styles.css">
    </head>
    <body>
-      <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-         <symbol id="bootstrap" viewBox="0 0 118 94">
-            <title>Bootstrap</title>
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M24.509 0c-6.733 0-11.715 5.893-11.492 12.284.214 6.14-.064 14.092-2.066 20.577C8.943 39.365 5.547 43.485 0 44.014v5.972c5.547.529 8.943 4.649 10.951 11.153 2.002 6.485 2.28 14.437 2.066 20.577C12.794 88.106 17.776 94 24.51 94H93.5c6.733 0 11.714-5.893 11.491-12.284-.214-6.14.064-14.092 2.066-20.577 2.009-6.504 5.396-10.624 10.943-11.153v-5.972c-5.547-.529-8.934-4.649-10.943-11.153-2.002-6.484-2.28-14.437-2.066-20.577C105.214 5.894 100.233 0 93.5 0H24.508zM80 57.863C80 66.663 73.436 72 62.543 72H44a2 2 0 01-2-2V24a2 2 0 012-2h18.437c9.083 0 15.044 4.92 15.044 12.474 0 5.302-4.01 10.049-9.119 10.88v.277C75.317 46.394 80 51.21 80 57.863zM60.521 28.34H49.948v14.934h8.905c6.884 0 10.68-2.772 10.68-7.727 0-4.643-3.264-7.207-9.012-7.207zM49.948 49.2v16.458H60.91c7.167 0 10.964-2.876 10.964-8.281 0-5.406-3.903-8.178-11.425-8.178H49.948z"></path>
-         </symbol>
-         <symbol id="home" viewBox="0 0 16 16">
-            <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z"/>
-         </symbol>
-         <symbol id="speedometer2" viewBox="0 0 16 16">
-            <path d="M8 4a.5.5 0 0 1 .5.5V6a.5.5 0 0 1-1 0V4.5A.5.5 0 0 1 8 4zM3.732 5.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707zM2 10a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 10zm9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5zm.754-4.246a.389.389 0 0 0-.527-.02L7.547 9.31a.91.91 0 1 0 1.302 1.258l3.434-4.297a.389.389 0 0 0-.029-.518z"/>
-            <path fill-rule="evenodd" d="M0 10a8 8 0 1 1 15.547 2.661c-.442 1.253-1.845 1.602-2.932 1.25C11.309 13.488 9.475 13 8 13c-1.474 0-3.31.488-4.615.911-1.087.352-2.49.003-2.932-1.25A7.988 7.988 0 0 1 0 10zm8-7a7 7 0 0 0-6.603 9.329c.203.575.923.876 1.68.63C4.397 12.533 6.358 12 8 12s3.604.532 4.923.96c.757.245 1.477-.056 1.68-.631A7 7 0 0 0 8 3z"/>
-         </symbol>
-         <symbol id="table" viewBox="0 0 16 16">
-            <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 2h-4v3h4V4zm0 4h-4v3h4V8zm0 4h-4v3h3a1 1 0 0 0 1-1v-2zm-5 3v-3H6v3h4zm-5 0v-3H1v2a1 1 0 0 0 1 1h3zm-4-4h4V8H1v3zm0-4h4V4H1v3zm5-3v3h4V4H6zm4 4H6v3h4V8z"/>
-         </symbol>
-         <symbol id="people-circle" viewBox="0 0 16 16">
-            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
-         </symbol>
-         <symbol id="grid" viewBox="0 0 16 16">
-            <path d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z"/>
-         </symbol>
-      </svg>
-      <main>
-      <header class="p-3 bg-dark text-white">
-         <div class="container">
-            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-               <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                  <li><a href="https://github.com/luisccastillo/gimpfu-iexec" class="nav-link px-2 text-white"><b>&#128058; gimpfu-iexec</b></a></li>
-               </ul>
-               <div class="text-end">
-                  <div class="dropdown dropend">
-                     <button class="btn btn-secondary btn-sm btn-warning dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
-                     <span id="address">Please connect with Metamask</span>
-                     </button>
-                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                        <li><a class="dropdown-item btn-sm disabled" href="#"><span id="native-wallet"></span></a></li>
-                        <li><a class="dropdown-item btn-sm disabled" href="#"><span id="account"></span></a></li>
-                     </ul>
+      <div id="ellipse-container">
+      <div id="ellipse-15"></div>
+      <div id="ellipse-16"></div>
+      <div id="ellipse-14"></div>
+      <div id="ellipse-13"></div>
+      </div>
+      <header style="position:relative; z-index:1">
+         <nav class="navbar" id="gimpfu-navbar">
+            <div class="container col-lg-12">
+                  <div class="col-lg-7">
+                     <p id="sourcecode-link">iExec Dapp workflow demo</p>
                   </div>
-                  <span class="badge bg-secondary bg-warning text-dark"" id="network"></span>
-               </div>
+                  <div class="col-lg-1">
+                     <span class="badge bg-secondary info-chip"" id="network">Unknown network</span>
+                  </div>
+                  <div class="col-lg-4 dropdown">
+                        <button class="btn btn-secondary btn-sm btn-warning" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" disabled=true aria-expanded="false" style="float:right; line-height:1;">
+                        <span id="address" style="padding-right:8px">Please connect to the Viviani Sidechain
+                        </span>
+                        <img id="initialized-dropdown"
+                        src="/img/dropdown-arrow.svg" hidden=true>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-dark"  id="balance-dropdown" aria-labelledby="dropdownMenuButton2">
+                           <li class="dropdown-item btn-sm"><span id="native-wallet"></span></li>
+                           <li class="dropdown-item btn-sm"><span id="account"></span></li>
+                     
+                        </div>
+                  </div>
+
             </div>
-         </div>
+         </nav>
       </header>
-      <div class="container col-xxl-8 px-4 py-5">
-         <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
-            <div class="col-10 col-sm-8 col-lg-6">
-               <img src="https://user-images.githubusercontent.com/6378201/119253410-6e5b1300-bbb1-11eb-8819-2c2a2e51807a.png" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
-            </div>
-            <div class="col-lg-6">
-               <h1 class="display-7 fw-bold lh-1 mb-3">Decentralized off-chain computing</h1>
-               <p class="lead">
-                  Smart contracts are secure and reliable programs, but they are also costly and limited when executing more complex transactions. iExec provides decentralized applications (Dapps) to complement Blockchain technology with off-chain computing.
-               <p class="lead">
-                  This website is a live demonstration of the workflow of an iExec Dapp. it does not explore all of the capabilities of the iExec platform. The showcased application is an image filter processed with
-                  <a href="https://www.gimp.org/tutorials/Basic_Batch/">GIMP</a>.
+
+      <div id="gimpfu-body" style="position:relative;">
+      <div class="container col-lg-12">
+         <div class="row align-items-center g-5 py-5">
+            <div class="col-lg-7">
+               <h1 class="gimpfu-title">Decentralized <br> Off-chain Computing</h1>
+               <div class="col-lg-10">
+               <p class="lead gimpfu-p">
+                  iExec expands the capabilities of applications running on Ethereum smart contracts, allowing for off-chain computations on-demand.
+               </p>
+                  <p class="lead gimpfu-p">
+                     When you develop decentralized applications, you may use iExec to overcome blockchain limitations by executing more complex logic on the iExec decentralized infrastructure.
+               </p>
+                  <p class="lead gimpfu-p">
+                     The iExec marketplace is similar in function to the oil market. It offers uniform and standardized access to computing resources, regardless of provider.
                </p>
             </div>
+            </div>
+            <div class="col-lg-5">
+               <lottie-player  alt="iExec demo" src="https://assets9.lottiefiles.com/private_files/lf30_0tve7maf.json" background="transparent"  speed="0.4"  style="width: 510px; height: 340px;" loop autoplay></lottie-player>
+            </div>
          </div>
       </div>
-      <div class="b-example-divider"></div>
-      <div class="container col-xxl-8 px-4 py-5">
-         <h2 class="display-7 lh-1 mb-3">Prerequisite A : wallet & network set-up</h2>
-         <hr />
-         <p class="lead">
-            In order to interact with blockchain applications in a website, you  must possess a web wallet (and an account). For simplicity purposes <a href="https://metamask.io/">Metamask</a> works only in this demo, but other solutions work as good for managing your Ethereum identity.
+
+      <div class="container col-lg-12 py-5">
+         <h1 class="gimpfu-section-title">Demo Overview</h1>
+         <div class="row py-3">
+            <div class="col-lg-6">
+               <div class="col-lg-10">
+                  <p class="lead gimpfu-p">
+                     iExec leverages Linux-based <a href="https://www.docker.com/">Docker</a>  containers to ensure the execution of your application on a decentralized infrastructure. 
+                     As of now, you can only run applications as a task, this means services are not currently supported.
+                  </p>
+                  <p class="lead gimpfu-p">
+                     In this demo, the featured Dapp takes an image and applies a custom cartoon filter using the <a href="https://www.gimp.org/downloads/">GIMP</a> software. You can consult the source 
+                     code for gimpfu-cartoon <a href="https://github.com/iExecBlockchainComputing/gimpfu-cartoon">here</a>.
+                  </p>
+                  <p class="lead gimpfu-p">
+                     <i> 
+                     Click on the button below to inspect the Dapp blockchain data :
+                  </i>
+                  </p>
+                  <label for="apps-address-input" style="font-size:14px">Dapp address</label>
+                  <div class="container col-lg-12" style="padding-left:0px">
+                     <div class="row align-items-center">
+                     <div class="col-lg-8" >
+                     <input
+                        id="apps-address-input"
+                        type="text"
+                        value="0xA19e53d5a625AfdD671B55aeFB368Ccada32A0B3"
+                        placeholder="Dapp address"
+                        />
+                     </div>
+                     <div class="col-lg-4" >
+                     <button id="apps-show-button" class="btn btn-warning"  disabled>Show Dapp</button>
+                  </div>
+                  </div>
+               </div>
+                  <label id="apps-show-error" class="error"></label>
+            </div>
+            </div>
+            <div class="col-lg-6">
+               <div class="scrollablex" id="apps-details-output"></div>
+                </pre>  
+            </div>
+         </div>
+         <h2 class="py-2">Storage Set-up</h2>
+         <p class="lead gimpfu-p">
+            iExec enables running apps to produce output files. By default, files are uploaded to <a href="https://ipfs.io/">IPFS</a>.
+             This platform ensures your result to be publicly accessible through a decentralized network.
+              As you may not want all your data to be exposed to the world, iExec enables both optional result encryption or pushing
+               results to private storage providers.
+
          </p>
-         <p class="lead">
-            Once you have created an account, you may switch between different <a href="https://ethereum.org/en/developers/docs/networks/">Ethereum networks</a>, it is important to note that records only exist within the same network, therefore
-            make sure your balances, orders, dapps and other assets are available in the selected network. In this example only the Goerli Testnet and the Bellecour iExec Sidechain are available.
-         </p>
-         <p class="lead">
-            On the top right corner of this page, you can consult your available token balances in the selected network. ETH is used to interact with the Ethereum Blockchain, whereas RLC is used to interact with the iExec platform.
-         </p>
-         <p class="lead">
-            For testing purposes, iExec offers a <a href="https://faucet.iex.ec/goerli">faucet</a> which provides 200 nRLC for free.
-            Ethereum Goerli faucets are also available over the internet. Note that nRLC is a scaling unit of RLC : 1 nRLC equals to 0.000000001 RLC.
-         </p>
-      </div>
-      <div class="b-example-divider"></div>
-      <div class="container col-xxl-8 px-4 py-5">
-         <h2 class="display-7 lh-1 mb-3">Prerequisite B : storage set-up</h2>
-         <hr />
-         <p class="lead">The application needs a place to store the execution's output, for that we use decentralized storage solution called <a href="https://ipfs.io/">IPFS</a>.
-            Click on the button below to initialize your remote storage :
+         <p class="lead gimpfu-p">
+            <i>
+            Click on the button below to initialize your remote storage repository :
+         </i>
          </p>
          <div class="container">
             <label id="storage-check-error" class="error"></label>
          </div>
-         <div class="container">
-            <button id="storage-init-button" class="btn btn-warning" disabled><span id="storage-check-output" /></button>
+         <div class="container" style="padding-left:0px">
+            <button id="storage-init-button" class="btn btn-warning" disabled><span id="storage-check-output">Not connected</span>
+               
+               <img id="initialized-check"
+               src="/img/fi_check.svg" style="padding-left: 2px;" hidden=true>
+            
+            </button>
             <label id="storage-init-error" class="error"></label>
          </div>
-         <br>
-         <p class="lead">By default, the result is publicly published, but you may also configure your results to be encrypted and available only for your account (or someone else's). Uploading results to
-            private storage solutions is also supported.
-         </p>
       </div>
-      </div>
-      <div class="b-example-divider"></div>
-      <div class="container col-xxl-8 px-4 py-5">
-         <h2 class="display-7 lh-1 mb-3">Step 0 : Application & sell order check</h2>
-         <hr />
-         <p class="lead">Applications are built using <a href="https://ipfs.io/">Docker</a> containers and stored in  <a href="https://registry.hub.docker.com/layers/luiscarlosiexec/gimpfu-cartoon/1.0.0/images/sha256-bee53e1dac55d90350072128a6474fcec0c002bd0f163948e7b644dea8e8adb7?context=explore">Dockerhub</a>.
-            Once an application has been deployed through iExec, it cannot be deleted, however, the corresponding docker image may be deleted. Thanks to the checksum value we can make sure the application hasn't been modified even if it is deleted and re-added with the same name/version.
-         </p>
-         <div class="container">
-            <div>
-               <label for="apps-address-input">App address</label>
-               <input
-                  id="apps-address-input"
-                  type="text"
-                  value="0x3bFAE162b997D68A98545aa8B75a0Bcc252f1fed"
-                  placeholder="App address"
-                  />
-               <button id="apps-show-button" class="btn btn-warning" disabled>Show application</button>
-            </div>
-            <label id="apps-show-error" class="error"></label>
-            <pre class="pre-scrollable">
-          <code id="apps-details-output" style="display:inline-block;">
-          </code>
-        </pre>
+
+      <div class="container col-lg-12 py-5">
+         <span class="badge bg-secondary info-chip">Step 0</span>
+         <h1 class="gimpfu-section-title">Resource Providers Orders Check</h1>
+         <div class="row py-5">
+            <div class="col-lg-6">
+               <div class="col-lg-10">
+                  <p class="lead gimpfu-p">
+                     Application providers can monetize their applications and algorithms by setting a fixed-fee for each single usage of their software 
+                     (also known as a “pay-per-task” model).
+                     </p>
+                     <p class="lead gimpfu-p">
+                        Developers also benefit from the freedom to adjust resource allocation. By not having to maintain any servers, 
+                        developers deploy applications that can rapidly upscale/downscale based on user-demand.
+                     </p>
+                     <p class="lead gimpfu-p">
+                        The iExec protocol uses an order system to handle resource matchmaking. App providers create sell orders of their app, while workerpool managers create sell orders for their resources, 
+                        allowing end users to buy Dapp executions with request orders.
+                     </p>
+                        <p class="lead gimpfu-p">
+                        Orders contain the conditions of use of a resource, they are signed by the resource owner's wallet to ensure its governance.
+                     
+                     </p>
+                     <p class="lead gimpfu-p">
+                     <i>
+                        Click on the button below to inspect our Dapp's execution conditions :
+                     </i>
+                     </p>
+                     <label for="app-orderbook-address-input" style="font-size:14px">Dapp address</label>
+                     <div class="container col-lg-12" style="padding-left:0px">
+                        <div class="row align-items-center">
+                        <div class="col-lg-8" >
+                           <input
+                              id="app-orderbook-address-input"
+                              type="text"
+                              value="0xA19e53d5a625AfdD671B55aeFB368Ccada32A0B3"
+                              placeholder="Dapp address"
+                              />
+                        </div>
+                        <div class="col-lg-4" style="padding-right:0px">
+                           <button id="app-orderbook-show-button" class="btn btn-warning"  disabled>Show app order</button>
+                        </div>
+                     </div>
+                  </div>
+                     <label id="app-orderbook-show-error" class="error"></label>
+                  </div>
          </div>
-         <p class="lead">
-            Application orders are created by the application owner, they are a representation of the volume, the price, and the restrictions of an execution. If no application orders have been created by its owner, it is not possible to buy an execution. In this example, two application orders with different volume have been created, one costing 0 nRLC and a second one costing 1 nRLC.
-         </p>
-         <div class="container">
-            <div>
-               <label for="app-orderbook-address-input">App address</label>
-               <input
-                  id="app-orderbook-address-input"
-                  type="text"
-                  value="0x3bFAE162b997D68A98545aa8B75a0Bcc252f1fed"
-                  placeholder="App address"
-                  />
-               <button id="app-orderbook-show-button" class="btn btn-warning" disabled>Show orders</button>
-            </div>
-            <label id="app-orderbook-show-error" class="error"></label>
-            <pre class="pre-scrollable">
-          <code id="app-orderbook-details-output" style="display:inline-block;">
-          </code>
-        </pre>
-         </div>
+      <div class="col-lg-6">
+         <div class="scrollablex" id="app-orderbook-details-output"></div>
       </div>
-      <div class="b-example-divider"></div>
-      <div class="container col-xxl-8 px-4 py-5">
-         <h2 class="display-7 lh-1 mb-3">Step 1 : Computation order buy</h2>
-         <hr />
-         <p class="lead">The complete user interface of this dapp could be done on this section, as the user needs only to provide the URL of the image to be processed. By clicking on buy computation, a signature request will be asked to verify the integrity of the paratameters of the request. Then, a transaction
-            approval will be prompted in order to launch a smart contract call that will manage the execution of the application.
-         </p>
-         </p>
-         <p class="lead">The used parameters in this applications are: the app address, the type of execution (0 being standard), the image url, and the place where it will be executed.
-            There are several other parameters that can be adjusted depending on the use case, for this example, a specific workerpool is requested so that the execution is done on a compatible iExec version. If not specified, an alpha version workerpool may pick the execution and it may not run as intended.
-         </p>
-         <div class="form-group form-inline">
-            <label for="buy-appaddress-input">App address</label>
-            <input
-               class="form-control"
-               id="buy-appaddress-input"
-               type="text"
-               value="0x3bFAE162b997D68A98545aa8B75a0Bcc252f1fed"
-               placeholder="App address"
-               />
-            <label for="buy-category-input">Category</label>
-            <input
-               class="form-control"
-               id="buy-category-input"
-               type="number"
-               value="0"
-               min="0"
-               placeholder="Category"
-               />
-            <label for="buy-params-input">App params</label>
-            <input
-               class="form-control"
-               id="buy-params-input"
-               type="text"
-               value='{"iexec_input_files":["URL of .png or .jpg image"]}'
-               placeholder="App args"
-               />
-            <div>
-               <label for="workerpool-input">Workerpool</label>
-               <input
-                  class="form-control"
-                  id="workerpool-input"
-                  type="text"
-                  value="0xEb6c3FA8522f2C342E94941C21d3947c099e6Da0"
-                  placeholder="input files"
-                  />
-               <br>
-               <button id="buy-buy-button" class="btn btn-warning"  disabled>Buy computation</button>
-               <br>
-               <label id="buy-buy-error" class="error"></label>
-               <pre class="pre-scrollable">
-            <code id="buy-dealid-output" style="display:inline-block;">
-            </code>
-            </pre>
-               <p class="lead">
-                  Please check the available <a href="https://pools.iex.ec/">workerpools</a> that are suited for your application in terms of hardware requirements, running network, or version.
-                  Please note that an application owner may whitelist the usage of a specific workerpool for its execution.
+      </div>
+   
+
+      <div class="row py-5">
+         <div class="col-lg-6">
+            <div class="col-lg-10">
+               <p class="lead gimpfu-p">
+                  Within the iExec network, providers of computing power are called ‘Workers’.
+                   As a worker, you can connect your machine to the network and provide computing power.
                </p>
+               <p class="lead gimpfu-p">
+               Your machine executes computational tasks in exchange for a reward in RLC tokens. Workers can be individuals or companies. 
+               Anyone owning computing resources can make them available by joining a “workerpool” and 
+               renting computing power to the network.
+            </p>
+            <p class="lead gimpfu-p">
+               When a workerpool has enough workers ready to run some computation, the workerpool manager will create workerpool orders
+               to describe the category of resources they are offering as well as the trust level used
+               to certify the results.
+            </p>
+            <p class="lead gimpfu-p">
+            <i>   
+               Click on the button below to inspect the workerpool's execution conditions :
+            </i>
+            </p>
+                  <label for="workerpool-address-input" style="font-size:14px">Workerpool address</label>
+                  <div class="container col-lg-12" style="padding-left:0px">
+                     <div class="row align-items-center">
+                     <div class="col-lg-8" >
+                        <input
+                           id="workerpool-address-input"
+                           type="text"
+                           value="0xAd0b7eFEc0ABF34421B668ea7bCadaC12Dd97541"
+                           placeholder="Workerpool address"
+                           />
+                     </div>
+                     <div class="col-lg-4" style="padding-right:0px">
+                        <button id="workerpool-show-button" class="btn btn-warning"  disabled>Show work order</button>
+                     </div>
+                  </div>
+               </div>
+                  <label id="workerpool-show-error" class="error"></label>
+               </div>
+      </div>
+   <div class="col-lg-6">
+      <div class="scrollablex" id="workerpool-details-output"></div>
+   </div>
+   </div>
+      </div>
+     
+      <div class="container col-lg-12 py-5">
+         <span class="badge bg-secondary info-chip">Step 1</span>
+         <h1 class="gimpfu-section-title">Request Order Buy</h1>
+         <p class="lead gimpfu-p">
+            A user with a request will select the offer they find most relevant from the order book.
+             The user has a variety of choices to make, including deciding which computing resources to use and what price 
+             they are willing to pay. A user can answer a specific workerpool's ask and provide the details of the required execution.
+         </p>
+         
+         <p class="lead gimpfu-p">RLC tokens will be used to access the resources provided through iExec. It is the unique method of payment between application providers, 
+            computing resources providers and data providers. In order to pay for test executions, free RLC tokens are available through the sidechain testnet <a href="https://faucet.iex.ec/viviani">faucet</a>.
+         </p>
+         <p class="lead gimpfu-p">
+            Buying a request order closes a market deal, which is an agreement between a user, a Dapp developper and a workerpool manager. This creates a deal from the request order from the Dapp 
+             and parameters that the workerpool will now have to run.
+         </p>
+
+         <p class="lead gimpfu-p">
+            <i>
+            Fill the image URL parameters and click on the button below to pay for the execution of our Dapp :
+         </i>     
+         </p>
+
+         <div class="row py-5">
+            <div class="col-lg-6">
+               <div class="col-lg-10">
+                     <div class="container col-lg-12" style="padding-left:0px">
+                        <div class="row align-items-center">
+                        <div class="col-lg-12" >
+                           <label style="padding-bottom: 2px;" for="buy-appaddress-input">Dapp address</label>
+                           <input
+                               class="buy-form-input"
+                              id="buy-appaddress-input"
+                              type="text"
+                              value="0xA19e53d5a625AfdD671B55aeFB368Ccada32A0B3"
+                              placeholder="Dapp address"
+                              />
+                              <label class="py-2" for="workerpool-input">Workerpool address</label>
+                              <input
+                              class="buy-form-input"
+                                 id="workerpool-input"
+                                 type="text"
+                                 value="0xAd0b7eFEc0ABF34421B668ea7bCadaC12Dd97541"
+                                 placeholder="Workerpool address"
+                                 />
+                                 <label class="py-2" for="buy-params-input">App params</label>
+                                 <img
+                                 src="/img/fi_info.svg" 
+                                 style="padding: 2px;"
+                                 data-toggle="tooltip" data-placement="top" title="Used to set execution parameters : app arguments, input files, output storage, result encryption."/>
+                                 <input
+                                 class="buy-form-input"
+                                    id="buy-params-input"
+                                    type="text"
+                                    value='{"iexec_input_files":["URL strictly ending in .png or .jpg"]}'
+                                    placeholder="Application parameters"
+                                    />
+
+                                  
+                           <label class="py-2" for="buy-category-input">Category</label>
+                           <img
+                           src="/img/fi_info.svg" 
+                           style="padding: 2px;"
+                           data-toggle="tooltip" data-placement="top" title="Used to set execution time boundaries : from 0 for XS (5 min) to 4 for XL(10 hr)."/>
+                           <input
+                           class="buy-form-input"
+                              id="buy-category-input"
+                              type="text"
+                              value="0"
+                              placeholder="Category"
+                              />
+                       
+                
+                              <label class="py-2" for="buy-trust-input">Trust</label>
+                              <img
+                              src="/img/fi_info.svg" 
+                              style="padding: 2px;"
+                              data-toggle="tooltip" data-placement="top" title="Used to set the result consensus confidence level: 1 (0%), 2 (50%), ... 1000000 (99.9999%)."/>
+                              <input
+                              class="buy-form-input"
+                                 id="buy-trust-input"
+                                 type="text"
+                                 value="1"
+                                 placeholder="Trust"
+                                 />
+                    
+
+
+
+
+
+
+
+                        </div>
+                     </div>
+                     <div class="col-lg-8 py-3" style="padding-right:0px">
+                        <button id="buy-buy-button" class="btn btn-warning" style="float:left;" disabled>Buy computation</button>
+                     </div>
+                  </div>
+                  <br>
+                     <label id="buy-buy-error" class="error py-2"></label>
+                  </div>
+         </div>
+         <div class="col-lg-6">
+            <div class="scrollablex" id="buy-dealid-output"></div>
+         </div>
+      </div>
+      </div>
+
+
+
+      <div class="container col-lg-12 py-5">
+         <span class="badge bg-secondary info-chip">Step 2</span>
+         <h1 class="gimpfu-section-title">Deal Assignation</h1>
+         <div class="row py-5">
+            <div class="col-lg-6">
+               <div class="col-lg-10">
+                  <p class="lead gimpfu-p">
+                     A deal is a commitment from different parties (dapp developper, workerpool and user).
+                     Once a deal is committed to on the Blockchain thanks to the <a href="https://market.iex.ec/">iExec Marketplace</a>, requester funds are locked to ensure all resource providers 
+                  are paid for their contributions.
+                     </p>
+
+                     <p class="lead gimpfu-p">
+                        iExec uses the <a href="https://medium.com/iex-ec/poco-series-3-poco-protocole-update-a2c8f8f30126">PoCo</a> protocol, which is a set of communication patterns that the actors in the iExec platform are to follow.
+                        One fundamental aspect of <a href="https://medium.com/iex-ec/poco-series-3-poco-protocole-update-a2c8f8f30126">PoCo</a> is that the protocol is not an arbitration mechanism, but rather a set of on-chain contracts that ensure auditability, and that incentivize good behavior among participants (stake & reputation).                     </p>
+                     <p class="lead gimpfu-p">
+                     <i>
+                        Click on the button below to inspect the agreement between participants :
+                     </i>
+                     </p>
+
+                     <label for="results-dealid-input" style="font-size:14px">Deal address</label>
+                     <div class="container col-lg-12" style="padding-left:0px">
+                        <div class="row align-items-center">
+                        <div class="col-lg-8" >
+                           <input
+                              id="results-dealid-input"
+                              type="text"
+                              value="The dealId from step 1"
+                              placeholder="Deal address"
+                              />
+                        </div>
+                        <div class="col-lg-4" style="padding-right:0px">
+                           <button id="results-showdeal-button" class="btn btn-warning" disabled>Show deal</button>
+                        </div>
+                     </div>
+                  </div>
+                     <label id="results-showdeal-error" class="error"></label>
+                  </div>
+         </div>
+      <div class="col-lg-6">
+         <div class="scrollablex" id="results-dealdetails-output"></div>
+      </div>
+      </div>
+      </div>
+
+      <div class="container col-lg-12 py-5">
+         <span class="badge bg-secondary info-chip">Step 3</span>
+         <h1 class="gimpfu-section-title">Task Execution </h1>
+         <div class="row py-5">
+            <div class="col-lg-6">
+               <div class="col-lg-10">
+                  <p class="lead gimpfu-p">
+                     Now that a deal has been settled, the workerpool is in charge of providing a valid result to the user.
+                     The iexec-core software takes care of handling tasks described in a deal and will randomly distribute them to alive workers.
+                  </p>
+                  <p class="lead gimpfu-p">
+                     In order to avoid false results on a given task, workers must follow <a href="https://medium.com/iex-ec/poco-series-3-poco-protocole-update-a2c8f8f30126">PoCo</a> rules, which ensures that workers have not coordinated to purposively produce a fake result.
+                  </p>
+                  <p class="lead gimpfu-p">
+                     When a worker has successfully completed the task computation, it will send 
+                     a <a href="https://en.wikipedia.org/wiki/Commitment_scheme">commit/reveal</a> contribution on the Blockchain without disclosing their result at this stage.
+                  </p>
+
+               <p class="lead gimpfu-p">
+               <i>
+                  Click on the button below to inspect the contribution of the worker(s) :
+               </i>
                </p>
-               <p class="lead">
-                  Once you buy the computation, please wait for a response before continuing with this tutorial. Transaction times may differ depending on network congestion or availability.
-               </p>
-               </p>
-            </div>
+
+                     <label for="results-taskid-input" style="font-size:14px">Task address</label>
+                     <div class="container col-lg-12" style="padding-left:0px">
+                        <div class="row align-items-center">
+                        <div class="col-lg-8" >
+                           <input
+                              id="results-taskid-input"
+                              type="text"
+                              value="The taskId from step 2"
+                              placeholder="Task address"
+                              />
+                        </div>
+                        <div class="col-lg-4" style="padding-right:0px">
+                           <button id="results-showtask-button" class="btn btn-warning" disabled>Show task</button>
+                        </div>
+                     </div>
+                  </div>
+                     <label id="results-showtask-error" class="error"></label>
+                  </div>
          </div>
-      </div>
-      <div class="b-example-divider"></div>
-      <div class="container col-xxl-8 px-4 py-5">
-         <h2 class="display-7 lh-1 mb-3">Step 2 : Deal assignation</h2>
-         <hr />
-         <p class="lead">In this example, the computation is bought at market price. iExec provides a <a href="https://market.iex.ec/">marketplace</a> where computations can be traded based on more advanced parameters. When deployed, application executions are not publicly tradable by default in the marketplace.</p>
-         </p>
-         <p class="lead">The iExec marketplace trades deals, which are a representation of the characteristics of a dapp (size, type, trust level), the cost of an order, and the cost of its execution. Since this deal requests a particular workerpool to be used, the execution price is defined by the workerpool. Otherwise,
-            workerpools may choose to execute (or not) the deals that earn the most RLC for them.
-         </p>
-         </p>
-         <div class="container">
-            <div>
-               <label for="results-dealid-input">Dealid</label>
-               <input
-                  id="results-dealid-input"
-                  type="text"
-                  value="The dealId from step 1"
-                  placeholder="dealid"
-                  />
-               <button id="results-showdeal-button" class="btn btn-warning"  disabled>Show deal</button>
-            </div>
-            <label id="results-showdeal-error" class="error"></label>
-            <pre class="pre-scrollable">
-          <code id="results-dealdetails-output" style="display:inline-block;">
-          </code>
-        </pre>
-         </div>
-      </div>
-      <div class="b-example-divider"></div>
-      <div class="container col-xxl-8 px-4 py-5">
-         <h2 class="display-7 lh-1 mb-3">Step 3 : Execution </h2>
-         <hr />
-         <p class="lead">
-            When a deal has been assigned to a workerpool, it schedules the tasks of the dapp based on the availability and characteristics of the workers in the pool.
-            One task results in one to many replicates depending on the level of trust set by the buy order. For a given task, each worker involved has its own replicate containing the description of the task to compute inside.
-         </p>
-         </p>
-         <p class="lead">
-            In this example, only one worker executes the task (trust is set to 01). The worker goes through different <a href="https://docs.iex.ec/for-workers/quick-worker-start">replicate status</a> and provides a computed.json file which acts as a proof of contribution.
-            This file is needed to reach consensus when multiple workers execute the same task.
-         </p>
-         <p class="lead">
-            The status of a task, as well as other elements in the platform, can be consuled in the <a href="https://explorer.iex.ec/goerli">iExec explorer</a>.
-         </p>
-         <div class="container">
-            <div>
-               <label for="results-taskid-input">Taskid</label>
-               <input
-                  id="results-taskid-input"
-                  type="text"
-                  value="The taskId from step 2"
-                  placeholder="taskid"
-                  />
-               <button id="results-showtask-button" class="btn btn-warning"  disabled>Show task</button>
-            </div>
-            <label id="results-showtask-error" class="error"></label>
-            <pre class="pre-scrollable">
-          <code id="results-taskdetails-output" style="display:inline-block;">
-          </code>
-        </pre>
-         </div>
+      <div class="col-lg-6">
+         <div class="scrollablex" id="results-taskdetails-output"></div>
       </div>
       </div>
-      <div class="b-example-divider"></div>
-      <div class="container col-xxl-8 px-4 py-5">
-         <h2 class="display-7 lh-1 mb-3">Step 4 : Result fetching </h2>
-         <hr />
-         <p class="lead">After the task is marked as COMPLETED, the results can be fetched from IPFS. Download times depend on the network finding the node that stores the results.</p>
+      </div>
+      
+      <div class="container col-lg-12 py-5">
+         <span class="badge bg-secondary info-chip">Step 4</span>
+         <h1 class="gimpfu-section-title">Finalization</h1>
+         <p class="lead gimpfu-p">
+            Once a consensus is reached on the contributions made by each worker, the final result will be uploaded by workers, and the workerpool manager will be able to finalize the task.
+            This call unlocks all stakes and rewards / penalize all actors depending on their role and contributions.
+            At this final stage, the user is able to download the results, which contain intrinscally an auditable proof of execution.
          </p>
-         <div class="container">
-            <div>
-               <label for="results-download-input">Taskid</label>
-               <input
-                  id="results-download-input"
-                  type="text"
-                  value="the COMPLETED taskId from step 2"
-                  placeholder="taskid to download"
-                  />
-               <button id="results-download-button" class="btn btn-warning"  disabled>
-               Download task result
-               </button>
-            </div>
+         <p class="lead gimpfu-p">
+         <i>
+            Click on the button below to fetch the Dapp results from IPFS :
+         </i>
+         </p>
+         <div class="row">
+            <div class="col-lg-6">
+               <div class="col-lg-10">
+                     <label for="results-download-input" style="font-size:14px">Task address</label>
+                     <div class="container col-lg-12" style="padding-left:0px">
+                        <div class="row align-items-center">
+                        <div class="col-lg-8" >
+                           <input
+                              id="results-download-input"
+                              type="text"
+                              value="The COMPLETED taskId from step 2"
+                              placeholder="Task address"
+                              />
+                        </div>
+                        <div class="col-lg-4" style="padding-right:0px">
+                           <button id="results-download-button" class="btn btn-warning" disabled>Download result</button>
+                        </div>
+                     </div>
+                  </div>
+                     <label id="results-showtask-error" class="error"></label>
+                  </div>
          </div>
+      </div>
          <label id="results-download-error" class="error"></label>
       </div>
+   </div>
+</body> 
+
+   <footer>
+   <div class="container" style="position:relative; padding-top:60px">
+   <div id="footer-contents">
+
+      <div id="here-to">
+      <a href="https://iex.ec"">
+      <svg width="57" height="66" viewBox="0 0 57 66" fill="none" xmlns="http://www.w3.org/2000/svg">
+         <defs>
+             <linearGradient id="gradient" gradientUnits="userSpaceOnUse">
+                 <stop offset="0" stop-color="#FCD15A"/>
+                 <stop offset="1" stop-color="#FCD15A"/>
+             </linearGradient>
+             <mask id="iexec-logo" maskUnits="userSpaceOnUse" x="0" y="0" width="57" height="66">
+                 <path d="M27.6931 13.1211C25.3042 13.3545 23.1014 14.5047 21.5539 16.3267C20.0064 18.1488 19.2364 20.4987 19.408 22.8761C19.4483 23.5088 19.3114 24.1403 19.0126 24.7006C18.7138 25.2609 18.2647 25.7282 17.715 26.0508C17.1578 26.3887 16.5171 26.5666 15.8641 26.5647C15.2456 26.5509 14.6412 26.3784 14.1098 26.0639C12.6448 25.1442 10.9482 24.6536 9.215 24.6485C8.85419 24.6551 8.494 24.6813 8.13605 24.7269C5.8755 25.0797 3.82816 26.2554 2.39284 28.025C0.957524 29.7946 0.237023 32.0313 0.371686 34.2995C0.506349 36.5676 1.48653 38.7048 3.1213 40.2947C4.75607 41.8845 6.92836 42.8133 9.215 42.8999C9.50796 42.9068 9.80105 42.8937 10.0922 42.8607C12.2291 42.6574 14.2274 41.7192 15.7418 40.2085C17.2561 38.6977 18.1914 36.7091 18.3861 34.5864C18.4256 34.1023 18.4256 33.6159 18.3861 33.1319C18.3452 32.4985 18.4823 31.8664 18.782 31.3058C19.0817 30.7453 19.5322 30.2784 20.0835 29.9571C20.6274 29.6235 21.2555 29.4499 21.8949 29.4563C22.5161 29.4517 23.1254 29.6256 23.6493 29.9571C25.1262 30.877 26.8357 31.3617 28.5791 31.3551C28.9385 31.3746 29.2987 31.3746 29.658 31.3551C31.967 31.0544 34.0755 29.8966 35.5593 28.1145C37.043 26.3325 37.7919 24.0586 37.6552 21.7504C37.5184 19.4422 36.5062 17.2711 34.8222 15.6741C33.1383 14.0771 30.9076 13.1726 28.5791 13.1429C28.287 13.1236 27.994 13.1236 27.7019 13.1429" fill="white"/>
+     <path d="M47.0791 24.675C44.6894 24.9084 42.4859 26.0592 40.9383 27.8822C39.3907 29.7052 38.6213 32.0563 38.794 34.4344C38.8252 35.0564 38.6878 35.6754 38.3963 36.2269C38.1047 36.7784 37.6695 37.2421 37.1361 37.5699L37.0967 37.6091C36.54 37.9464 35.8978 38.1186 35.2458 38.1056C34.628 38.0908 34.0242 37.9199 33.4914 37.6091C32.0585 36.6993 30.3987 36.2038 28.698 36.1779C26.9974 36.1521 25.3231 36.597 23.8628 37.4628C22.4025 38.3286 21.2139 39.5811 20.4302 41.0799C19.6464 42.5788 19.2986 44.2647 19.4256 45.9487C19.4658 46.5815 19.329 47.213 19.0302 47.7733C18.7314 48.3336 18.2823 48.8009 17.7326 49.1235C17.1712 49.4676 16.5239 49.6486 15.8641 49.646C15.2456 49.6323 14.6412 49.4597 14.1098 49.1452C12.6448 48.2256 10.9482 47.735 9.215 47.7299C8.85418 47.7365 8.494 47.7627 8.13605 47.8083C5.8576 48.1381 3.78619 49.3033 2.33002 51.0742C0.873841 52.8452 0.138517 55.0934 0.268951 57.376C0.399385 59.6585 1.38612 61.8098 3.0347 63.4058C4.68328 65.0019 6.87413 65.9269 9.17553 65.9987C9.46848 66.0048 9.76151 65.9917 10.0527 65.9595C12.1844 65.7546 14.1764 64.8147 15.6828 63.3031C17.1891 61.7916 18.1146 59.8038 18.2984 57.6852C18.3378 57.2026 18.3378 56.7176 18.2984 56.235C18.2641 55.6074 18.4044 54.9826 18.7037 54.4288C19.0031 53.875 19.4501 53.4136 19.9957 53.0951L20.0352 53.0559C20.5954 52.7201 21.2408 52.5508 21.8949 52.5682C22.5153 52.5645 23.124 52.7367 23.6493 53.0646C25.1131 53.9867 26.8104 54.4775 28.544 54.48C28.8905 54.48 29.237 54.4451 29.5835 54.4451C31.952 54.2078 34.1318 53.0559 35.653 51.2376C37.1741 49.4194 37.9147 47.0804 37.7151 44.725C37.6893 44.249 37.7621 43.7729 37.929 43.326C38.096 42.879 38.3535 42.4709 38.6857 42.1268C39.0179 41.7827 39.4176 41.5099 39.8602 41.3253C40.3029 41.1408 40.7789 41.0484 41.259 41.0538C41.8794 41.0501 42.4881 41.2223 43.0133 41.5503C44.4775 42.4717 46.1746 42.9624 47.9081 42.9656C48.2689 42.959 48.6291 42.9328 48.987 42.8872C51.296 42.5866 53.4045 41.4288 54.8883 39.6467C56.372 37.8647 57.1209 35.5907 56.9842 33.2825C56.8474 30.9744 55.8352 28.8033 54.1512 27.2062C52.4673 25.6092 50.2366 24.7048 47.9081 24.675C47.6273 24.6357 47.3424 24.6357 47.0616 24.675" fill="white"/>
+     <path d="M15.8729 16.0696L15.4825 14.1752H15.522C15.6786 14.1131 15.8211 14.0206 15.9413 13.9032C16.0615 13.7857 16.1568 13.6456 16.2217 13.4911C16.2867 13.3366 16.3199 13.1707 16.3195 13.0033C16.3191 12.8359 16.285 12.6702 16.2193 12.516V12.516L17.6974 11.5492C17.7764 11.6276 17.8553 11.6668 17.8948 11.7408L16.0658 16.1131C16.0046 16.0881 15.9391 16.0748 15.8729 16.0739V16.0696ZM15.9079 9.14529L17.386 10.1121C17.2721 10.4244 17.2721 10.7665 17.386 11.0789V11.0789L15.9079 12.0413C15.6835 11.8226 15.3876 11.6909 15.0738 11.6701C14.76 11.6494 14.4491 11.7409 14.1974 11.9281L13.4211 11.2313C13.5529 11.0386 13.6234 10.811 13.6234 10.5781C13.6234 10.3451 13.5529 10.1175 13.4211 9.92482L14.1974 9.22803C14.426 9.39081 14.6971 9.48457 14.9781 9.49804C15.1493 9.51122 15.3214 9.48685 15.4821 9.42664C15.6428 9.36643 15.7882 9.27187 15.9079 9.14965V9.14529ZM12.136 5.98363L12.3685 5.86605L13.965 7.49043C13.833 7.66198 13.749 7.86501 13.7213 8.07908C13.6935 8.29316 13.7231 8.5107 13.8071 8.7098V8.7098C13.8465 8.78383 13.8465 8.82303 13.886 8.90142L13.1228 9.58078C12.9069 9.41508 12.6434 9.32196 12.3705 9.31492C12.0977 9.30787 11.8297 9.38726 11.6053 9.54159L10.2895 8.23512C10.4449 8.01235 10.5249 7.74623 10.5178 7.47531C10.5107 7.2044 10.4169 6.94277 10.25 6.72832L10.9913 5.87912C11.1614 5.9916 11.3566 6.06111 11.5599 6.08161C11.7632 6.1021 11.9685 6.07295 12.1579 5.9967L12.136 5.98363ZM16.1667 8.74029C16.2318 8.58543 16.2652 8.41929 16.2651 8.25151C16.2649 8.08373 16.2312 7.91764 16.166 7.76289C16.1007 7.60813 16.0051 7.46779 15.8848 7.35C15.7644 7.23221 15.6217 7.13932 15.465 7.07671H15.4036L15.7939 5.1083C15.8735 5.11452 15.9533 5.10106 16.0264 5.0691L17.8158 9.54159C17.7369 9.58078 17.6623 9.65481 17.5834 9.69401L16.1667 8.74029ZM3.17106 5.25637C3.32896 5.18233 3.79387 4.94717 3.87282 4.56394L5.62721 4.90797C5.62086 5.16877 5.67804 5.42723 5.79388 5.66137L4.20177 7.22478C3.98878 7.07476 3.73481 6.99273 3.47369 6.98962L3.17106 5.25637ZM12.6842 5.52201C12.8435 5.28204 12.9246 4.99928 12.9167 4.712L14.6316 4.32442C14.6922 4.47592 14.7845 4.61291 14.9025 4.72628C15.0205 4.83965 15.1614 4.92682 15.3158 4.98201L14.9386 6.96784C14.7668 6.97325 14.5961 6.99809 14.4299 7.04187C14.3609 7.07308 14.2961 7.11257 14.2369 7.15946L12.6842 5.52201ZM9.68862 2.47358L10.6974 3.91941C10.4877 4.14151 10.3646 4.43051 10.3502 4.73458C10.3357 5.03865 10.4308 5.33789 10.6185 5.57863L9.88161 6.44961C9.6806 6.33785 9.45408 6.27916 9.22371 6.27916C8.99334 6.27916 8.76682 6.33785 8.56581 6.44961L7.89476 5.66137C8.0833 5.41146 8.17546 5.10276 8.15454 4.79119C8.13362 4.47963 8.00101 4.18581 7.78072 3.96296L8.73687 2.51278C8.8632 2.55415 8.99442 2.57903 9.12722 2.58681C9.31465 2.5889 9.50028 2.55026 9.67108 2.47358H9.68862ZM3.91229 4.09361V3.8628L8.09213 2.0468C8.16669 2.12519 8.24564 2.23842 8.32458 2.31681L7.3509 3.78441C7.19454 3.71784 7.02632 3.6831 6.8562 3.68224C6.68608 3.68137 6.51751 3.7144 6.36048 3.77937C6.20344 3.84434 6.06112 3.93992 5.94195 4.06047C5.82278 4.18102 5.72918 4.32409 5.66668 4.48119L3.91229 4.09361ZM10.0527 2.20358C10.1189 2.13595 10.171 2.05605 10.2062 1.96842L14.5264 3.59279V3.8628L12.8158 4.29829C12.7495 4.14571 12.6535 4.00762 12.5334 3.89195C12.4132 3.77627 12.2712 3.68528 12.1156 3.62419C11.9599 3.5631 11.7937 3.53312 11.6263 3.53595C11.459 3.53878 11.2938 3.57438 11.1404 3.6407H11.1009L10.0527 2.20358ZM9.11845 0.0261294C8.82195 0.0309537 8.53619 0.137099 8.3093 0.326683C8.08241 0.516267 7.92826 0.777704 7.87283 1.06695C7.83326 1.24628 7.83326 1.43199 7.87283 1.61131L3.73247 3.40118C3.68043 3.31359 3.61536 3.23431 3.53948 3.16601C3.28599 2.99919 2.98213 2.92471 2.67957 2.95523C2.37701 2.98575 2.09445 3.11939 1.87992 3.33342C1.6654 3.54745 1.53217 3.82865 1.50288 4.12921C1.4736 4.42977 1.55008 4.73112 1.7193 4.98201C1.75878 5.0212 1.79825 5.06039 1.83772 5.06039C0.799498 6.38827 0.162224 7.98149 0 9.65481V10.5824C0 13.031 0.979637 15.3793 2.7234 17.1107C4.46717 18.8421 6.83222 19.8148 9.29827 19.8148V19.8148C9.60937 19.8075 9.9198 19.7827 10.2281 19.7408C11.964 19.5562 13.6113 18.8857 14.9781 17.8072C14.9781 17.8464 15.0132 17.8464 15.0132 17.8856C15.2197 18.0906 15.4997 18.2058 15.7917 18.2058C16.0837 18.2058 16.3637 18.0906 16.5702 17.8856C16.7767 17.6806 16.8927 17.4025 16.8927 17.1126C16.8927 16.8227 16.7767 16.5446 16.5702 16.3396C16.526 16.2922 16.4741 16.2524 16.4167 16.222L18.2457 11.8671C18.5703 11.9334 18.9082 11.8726 19.1888 11.6974C19.4694 11.5222 19.6709 11.2461 19.7513 10.9268C19.8317 10.6075 19.7848 10.2697 19.6202 9.98397C19.4557 9.69826 19.1864 9.48671 18.8685 9.39352H18.8246C18.7234 9.36498 18.6182 9.35321 18.5132 9.35868C18.4341 9.35274 18.3546 9.36465 18.2808 9.39352L16.4913 4.90362C16.6737 4.83602 16.8387 4.72905 16.9745 4.59045C17.1102 4.45184 17.2133 4.28505 17.2763 4.1021C17.3393 3.91915 17.3605 3.7246 17.3386 3.5325C17.3167 3.34039 17.2521 3.15551 17.1495 2.99119C17.0469 2.82687 16.9088 2.68721 16.7453 2.58228C16.5817 2.47736 16.3968 2.40978 16.2037 2.38443C16.0107 2.35908 15.8144 2.37658 15.629 2.43568C15.4436 2.49477 15.2737 2.59399 15.1316 2.72617C14.9488 2.82972 14.7973 2.98012 14.693 3.16166L10.386 1.5068C10.4189 1.34418 10.4186 1.17666 10.3852 1.01413C10.3518 0.851613 10.286 0.697389 10.1915 0.560574C10.0971 0.42376 9.97596 0.307131 9.83534 0.21758C9.69473 0.128029 9.53746 0.067372 9.37283 0.0391941C9.29827 0.0391941 9.21932 0 9.14038 0L9.11845 0.0261294Z" fill="white"/>
+             </mask>
+         </defs>
+         <g mask="url(#iexec-logo)">
+             <rect x="0" y="0" width="57" height="66" fill="url(#gradient)"/>
+         </g>
+     </svg>
+   </a>
+   <p id="need-hand-footer">Need a hand ?</p>
+   <p id="here-to-help">We are here to help, feel free to contact us on  <a href="https://discord.gg/pbt9m98wnU">Discord</a>.</p>
+</div>
+   <div id ="footer-ellipses"> 
+      <div id="ellipse-18">
+         <div id="ellipse-17"></div>
       </div>
-      </div>
-      <div class="b-example-divider"></div>
-      <footer class="footer mt-auto py-3 bg-dark text-white">
-         <div class="container">
-            <span class="text-muted"></span>
-         </div>
-      </footer>
-      <script src="./index.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
-   </body>
-</html>
+      
+   </div>
+</div>
+</div>
+
+
+   <div id="end-rectangle"></div>
+</footer>
+
+<script type="module" src="./index.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+   </html>

@@ -1,16 +1,15 @@
 {
-  "name": "gimpfu-iexec-ui",
+  "name": "gimpfu-offchain-tutorial",
   "version": "1.0.1",
   "description": "",
-  "main": "index.html",
   "scripts": {
     "start": "parcel index.html --open --https",
-    "build": "parcel build index.html",
-    "predeploy": "rm -rf dist && parcel build index.html --no-minify --no-source-maps --public-url /gimpfu-iexec-ui",
+    "build": "parcel build index.html --no-source-maps --no-scope-hoist",
+    "predeploy": "rm -rf dist && parcel build index.html --no-source-maps --public-url /gimpfu-offchain-tutorial",
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
-    "iexec": "5.3.0"
+    "iexec": "6.0.0"
   },
   "devDependencies": {
     "@babel/core": "7.14.3",
@@ -19,7 +18,7 @@
     "eslint-config-airbnb-base": "14.2.1",
     "eslint-plugin-import": "2.23.3",
     "gh-pages": "^1.2.0",
-    "parcel-bundler": "^1.10.3",
+    "parcel": "^2.0.0",
     "prettier": "2.3.0",
     "prettier-eslint": "12.0.0"
   },

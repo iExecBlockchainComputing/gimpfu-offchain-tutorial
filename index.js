@@ -1,5 +1,3 @@
-import "./styles.css";
-
 import {
     IExec,
     utils
@@ -10,13 +8,7 @@ const addressOutput = document.getElementById("address");
 
 const nativeWalletOutput = document.getElementById("native-wallet");
 const accountOutput = document.getElementById("account");
-const accountDepositInput = document.getElementById("account-deposit-input");
-const accountDepositButton = document.getElementById("account-deposit-button");
-const accountDepositError = document.getElementById("account-deposit-error");
-const accountWithdrawInput = document.getElementById("account-withdraw-input");
-const accountWithdrawButton = document.getElementById(
-    "account-withdraw-button"
-);
+
 const accountWithdrawError = document.getElementById("account-withdraw-error");
 const storageInitButton = document.getElementById("storage-init-button");
 const storageInitError = document.getElementById("storage-init-error");
@@ -32,6 +24,11 @@ const appOrderbookShowButton = document.getElementById("app-orderbook-show-butto
 const appOrderbookShowError = document.getElementById("app-orderbook-show-error");
 const appOrderbookShowOutput = document.getElementById("app-orderbook-details-output");
 
+const workerpoolOrderbookShowInput = document.getElementById("workerpool-address-input");
+const workerpoolOrderbookShowButton = document.getElementById("workerpool-show-button");
+const workerpoolOrderbookShowError = document.getElementById("workerpool-show-error");
+const workerpoolOrderbookShowOutput = document.getElementById("workerpool-details-output");
+
 const buyBuyButton = document.getElementById("buy-buy-button");
 const buyBuyError = document.getElementById("buy-buy-error");
 const buyBuyOutput = document.getElementById("buy-dealid-output");
@@ -39,9 +36,7 @@ const buyAppAddressInput = document.getElementById("buy-appaddress-input");
 const buyCategoryInput = document.getElementById("buy-category-input");
 const buyParamsInput = document.getElementById("buy-params-input");
 const buyWorkerpoolInput = document.getElementById("workerpool-input");
-const previousDealsButton = document.getElementById("previous-deals-button");
-const previousDealsError = document.getElementById("previous-deals-error");
-const previousDealsOutput = document.getElementById("previous-deals-output");
+const buyTrustInput = document.getElementById("buy-trust-input");
 const resultsDealidInput = document.getElementById("results-dealid-input");
 const resultsShowDealButton = document.getElementById(
     "results-showdeal-button"
@@ -64,45 +59,23 @@ const resultsDownloadButton = document.getElementById(
 );
 const resultsDownloadError = document.getElementById("results-download-error");
 
+const initializedCheckmark = document.getElementById("initialized-check");
+const initializedDropdown = document.getElementById("initialized-dropdown");
+const dropdownButton = document.getElementById("dropdownMenuButton2");
+
+const docbody = document.body;
+
 const refreshUser = (iexec) => async () => {
     const userAddress = await iexec.wallet.getAddress();
     const [wallet, account] = await Promise.all([
         iexec.wallet.checkBalances(userAddress),
         iexec.account.checkBalance(userAddress)
     ]);
-    const nativeWalletText = `${utils.formatEth(wallet.wei).substring(0, 6)} ETH`;
+    const nativeWalletText = `Native : ${utils.formatEth(wallet.wei).substring(0, 6)} RLC`;
     const rlcWalletText = `${utils.formatRLC(wallet.nRLC)} RLC`;
     addressOutput.innerText = userAddress;
     nativeWalletOutput.innerHTML = nativeWalletText;
-    accountOutput.innerText = `${account.stake} nRLC`;
-};
-
-const deposit = (iexec) => async () => {
-    try {
-        accountDepositButton.disabled = true;
-        accountDepositError.innerText = "";
-        const amount = accountDepositInput.value;
-        await iexec.account.deposit(amount);
-        refreshUser(iexec)();
-    } catch (error) {
-        accountDepositError.innerText = error;
-    } finally {
-        accountDepositButton.disabled = false;
-    }
-};
-
-const withdraw = (iexec) => async () => {
-    try {
-        accountWithdrawButton.disabled = true;
-        accountWithdrawError.innerText = "";
-        const amount = accountWithdrawInput.value;
-        await iexec.account.withdraw(amount);
-        refreshUser(iexec)();
-    } catch (error) {
-        accountWithdrawError.innerText = error;
-    } finally {
-        accountWithdrawButton.disabled = false;
-    }
+    accountOutput.innerText = `Wallet : ${account.stake} nRLC`;
 };
 
 const checkStorage = (iexec) => async () => {
@@ -113,8 +86,9 @@ const checkStorage = (iexec) => async () => {
             await iexec.wallet.getAddress()
         );
         storageCheckOutput.innerText = isStorageInitialized ?
-            "initialized" :
-            "not initialized";
+            "Initialized" :
+            "Not initialized";
+        if (isStorageInitialized) {initializedCheckmark.hidden=false};
     } catch (error) {
         storageCheckError.innerText = error.message;
     }
@@ -138,7 +112,9 @@ const initStorage = (iexec) => async () => {
 
 const showApp = (iexec) => async () => {
     try {
+
         appsShowButton.disabled = true;
+        docbody.classList.add("waiting");
         appsShowError.innerText = "";
         appsShowOutput.innerText = "";
         const appAddress = appsShowInput.value;
@@ -146,25 +122,60 @@ const showApp = (iexec) => async () => {
         appsShowOutput.innerText = JSON.stringify(res, null, 2);
     } catch (error) {
         appsShowError.innerText = error;
+        docbody.classList.remove("waiting");
     } finally {
+        docbody.classList.remove("waiting");
         appsShowButton.disabled = false;
+    }
+};
+
+const showWorkerpoolOrderbook = (iexec) => async () => {
+    try {
+        workerpoolOrderbookShowButton.disabled = true;
+        docbody.classList.add("waiting");
+        workerpoolOrderbookShowError.innerText = "";
+        workerpoolOrderbookShowOutput.innerText = "";
+        const workerpoolAddress = workerpoolOrderbookShowInput.value;
+        const {
+            orders
+        } = await iexec.orderbook.fetchWorkerpoolOrderbook({workerpool:workerpoolAddress});
+    
+        if (orders[0] === undefined){
+            workerpoolOrderbookShowOutput.innerText = "No order found for the given address."
+        }else {
+        workerpoolOrderbookShowOutput.innerText = JSON.stringify(orders[0], null, 2);
+    }
+
+    } catch (error) {
+        workerpoolOrderbookShowError.innerText = error;
+        docbody.classList.remove("waiting");
+    } finally {
+        workerpoolOrderbookShowButton.disabled = false;
+        docbody.classList.remove("waiting");
     }
 };
 
 const showOrderbook = (iexec) => async () => {
     try {
         appOrderbookShowButton.disabled = true;
+        docbody.classList.add("waiting");
         appOrderbookShowError.innerText = "";
         appOrderbookShowOutput.innerText = "";
         const appAddress = appOrderbookShowInput.value;
         const {
-            appOrders
+            orders
         } = await iexec.orderbook.fetchAppOrderbook(appAddress);
-        appOrderbookShowOutput.innerText = JSON.stringify(appOrders, null, 2);
+        if (orders[0] === undefined){
+            appOrderbookShowOutput.innerText = "No order found for the given address."
+        }else {
+        appOrderbookShowOutput.innerText = JSON.stringify(orders[0], null, 2);
+        }
     } catch (error) {
         appOrderbookShowError.innerText = error;
+        docbody.classList.remove("waiting");
     } finally {
         appOrderbookShowButton.disabled = false;
+        docbody.classList.remove("waiting");
     }
 };
 
@@ -173,25 +184,28 @@ const buyComputation = (iexec) => async () => {
         buyBuyButton.disabled = true;
         buyBuyError.innerText = "";
         buyBuyOutput.innerText = "";
+        docbody.classList.add("waiting");
         const appAddress = buyAppAddressInput.value;
         const category = buyCategoryInput.value;
         const params = buyParamsInput.value;
         const workerpool = buyWorkerpoolInput.value;
+        const trustLevel = buyTrustInput.value;
         const {
-            appOrders
+            orders
         } = await iexec.orderbook.fetchAppOrderbook(appAddress);
-        const appOrder = appOrders && appOrders[0] && appOrders[0].order;
+        const appOrder = orders && orders[0] && orders[0].order;
         if (!appOrder) throw Error(`no apporder found for app ${appAddress}`);
-        const {
-            workerpoolOrders
-        } = await iexec.orderbook.fetchWorkerpoolOrderbook({
-            category,
-            workerpool
-        });
+
+        const workerPoolRes = await iexec.orderbook.fetchWorkerpoolOrderbook(
+            {workerpool: workerpool,
+            category: category,
+            minTrust : trustLevel}
+        );
+        const workerPoolOrders = workerPoolRes.orders;
         const workerpoolOrder =
-            workerpoolOrders && workerpoolOrders[0] && workerpoolOrders[0].order;
+        workerPoolOrders && workerPoolOrders[0] && workerPoolOrders[0].order;
         if (!workerpoolOrder)
-            throw Error(`no workerpoolorder found for category ${category}`);
+            throw Error(`no workerpoolorder found for the selected options: category ${category}, trust level ${trustLevel}`);
 
         const userAddress = await iexec.wallet.getAddress();
 
@@ -203,6 +217,7 @@ const buyComputation = (iexec) => async () => {
             workerpool: workerpool,
             volume: 1,
             params: params,
+            trust: trustLevel,
             category: category
         });
 
@@ -218,29 +233,17 @@ const buyComputation = (iexec) => async () => {
         refreshUser(iexec)();
     } catch (error) {
         buyBuyError.innerText = error;
+        docbody.classList.remove("waiting");
     } finally {
         buyBuyButton.disabled = false;
-    }
-};
-
-const showPreviousDeals = (iexec) => async () => {
-    try {
-        previousDealsButton.disabled = true;
-        previousDealsError.innerText = "";
-        previousDealsOutput.innerText = "";
-        const userAddress = await iexec.wallet.getAddress();
-        const deals = await iexec.deal.fetchRequesterDeals(userAddress);
-        previousDealsOutput.innerText = JSON.stringify(deals, null, 2);
-    } catch (error) {
-        previousDealsError.innerText = error;
-    } finally {
-        previousDealsButton.disabled = false;
+        docbody.classList.remove("waiting");
     }
 };
 
 const showDeal = (iexec) => async () => {
     try {
         resultsShowDealButton.disabled = true;
+        docbody.classList.add("waiting");
         resultsShowDealError.innerText = "";
         resultsShowDealOutput.innerText = "";
         const dealid = resultsDealidInput.value;
@@ -250,14 +253,17 @@ const showDeal = (iexec) => async () => {
         resultsDownloadInput.value = deal.tasks["0"];
     } catch (error) {
         resultsShowDealError.innerText = error;
+        docbody.classList.remove("waiting");
     } finally {
         resultsShowDealButton.disabled = false;
+        docbody.classList.remove("waiting");
     }
 };
 
 const showTask = (iexec) => async () => {
     try {
         resultsShowTaskButton.disabled = true;
+        docbody.classList.add("waiting");
         resultsShowTaskError.innerText = "";
         resultsShowTaskOutput.innerText = "";
         const taskid = resultsTaskidInput.value;
@@ -265,14 +271,17 @@ const showTask = (iexec) => async () => {
         resultsShowTaskOutput.innerText = JSON.stringify(res, null, 2);
     } catch (error) {
         resultsShowTaskError.innerText = error;
+        docbody.classList.remove("waiting");
     } finally {
         resultsShowTaskButton.disabled = false;
+        docbody.classList.remove("waiting");
     }
 };
 
 const dowloadResults = (iexec) => async () => {
     try {
         resultsDownloadButton.disabled = true;
+        docbody.classList.add("waiting");
         resultsDownloadError.innerText = "";
         const taskid = resultsDownloadInput.value;
         const res = await iexec.task.fetchResults(taskid, {
@@ -296,14 +305,22 @@ const dowloadResults = (iexec) => async () => {
         }
     } catch (error) {
         resultsDownloadError.innerText = error;
+        docbody.classList.remove("waiting");
     } finally {
         resultsDownloadButton.disabled = false;
+        docbody.classList.remove("waiting");
     }
 };
 
 const init = async () => {
     try {
+        docbody.classList.add("waiting");
         let ethProvider;
+
+        ethereum.on('chainChanged', () => {
+            document.location.reload()
+          })
+
 
         if (window.ethereum) {
             console.log("using default provider");
@@ -311,12 +328,11 @@ const init = async () => {
         }
 
         let networkmap = new Map([
-            [5, "Goerli Testnet"],
+            [133, "Viviani Sidechain"],
             [134, "Bellecour Sidechain"]
         ]);
 
         await ethProvider.enable();
-
 
         const {
             result
@@ -335,9 +351,22 @@ const init = async () => {
         const networkVersion = result;
 
         if (networkmap.get(parseInt(networkVersion)) == undefined) {
-            const error = `Unsupported network ${networkVersion}, please switch to Goerli or Bellecour`;
-            storageInitButton.innerText = "invalid network";
+            const error = `Unsupported network ${networkVersion}`;
+            storageInitButton.innerText = "Unsupported network";
             networkOutput.innerText = error;
+            
+            storageInitButton.disabled = true;
+            appsShowButton.disabled = true;
+            workerpoolOrderbookShowButton.disabled = true;
+            appOrderbookShowButton.disabled = true;
+            buyBuyButton.disabled = true;
+            initializedDropdown.hidden = true;
+            resultsShowDealButton.disabled = true;
+            resultsShowTaskButton.disabled = true;
+            resultsDownloadButton.disabled = true;
+            dropdownButton.disabled = true;
+
+
             throw Error(error);
         }
 
@@ -355,6 +384,7 @@ const init = async () => {
         storageInitButton.addEventListener("click", initStorage(iexec));
         appsShowButton.addEventListener("click", showApp(iexec));
         appOrderbookShowButton.addEventListener("click", showOrderbook(iexec));
+        workerpoolOrderbookShowButton.addEventListener("click", showWorkerpoolOrderbook(iexec));
         buyBuyButton.addEventListener("click", buyComputation(iexec));
 
         resultsShowDealButton.addEventListener("click", showDeal(iexec));
@@ -363,16 +393,20 @@ const init = async () => {
 
         storageInitButton.disabled = false;
         appsShowButton.disabled = false;
+        workerpoolOrderbookShowButton.disabled = false;
         appOrderbookShowButton.disabled = false;
         buyBuyButton.disabled = false;
-
+        initializedDropdown.hidden = false;
         resultsShowDealButton.disabled = false;
         resultsShowTaskButton.disabled = false;
         resultsDownloadButton.disabled = false;
-        console.log("initialized");
+        dropdownButton.disabled = false;
+        docbody.classList.remove("waiting");
     } catch (e) {
         console.error(e.message);
+        docbody.classList.remove("waiting");
     }
 };
 
 init();
+
